@@ -1,0 +1,95 @@
+#Exercise 6
+#Get data from http://stats.espncricinfo.com/ci/content/records/284248.html and work on the questions
+#
+#Plot 5 highest runs across the year
+#Find highest number of times a player had become the highest run scorer in a calendar year
+#Plot contribution of player country in becoming highest run getters EX: Australian players 20%
+#
+
+library("xml2")
+library("rvest")
+link = "http://stats.espncricinfo.com/ci/content/records/284248.html"
+file=read_html(link)
+table=html_nodes(file,"table")
+table_final<-html_table(table[1],fill=TRUE)
+View(table_final)
+class(table_final)
+table.df <- as.data.frame(table_final)
+
+table.df[with(table.df, order(Runs, Player)), ]
+
+View(table.df)
+
+Top_Five_Scorers<-c(table.df$Player[1], table.df$Player[2], table.df$Player[3], table.df$Player[4], table.df$Player[5])
+Top_Five_Scorers
+
+## Top Five Scorers End
+
+PAK=0
+AUS=0
+IND=0
+SL=0
+ENG=0
+WI=0
+SA=0
+
+for(i in 1:length(table.df$Player))
+{
+  if(grepl("PAK",table.df$Player[i]))
+    PAK=PAK+1
+}
+
+PAK
+
+for(i in 1:length(table.df$Player))
+{
+  if(grepl("AUS",table.df$Player[i]))
+    AUS=AUS+1
+}
+
+AUS
+for(i in 1:length(table.df$Player))
+{
+  if(grepl("INDIA",table.df$Player[i]))
+    IND=IND+1
+}
+
+IND
+for(i in 1:length(table.df$Player))
+{
+  if(grepl("SL",table.df$Player[i]))
+    SL=SL+1
+}
+
+SL
+for(i in 1:length(table.df$Player))
+{
+  if(grepl("ENG",table.df$Player[i]))
+    ENG=ENG+1
+}
+
+ENG
+for(i in 1:length(table.df$Player))
+{
+  if(grepl("WI",table.df$Player[i]))
+    WI=WI+1
+}
+
+WI
+for(i in 1:length(table.df$Player))
+{
+  if(grepl("SA",table.df$Player[i]))
+    SA=SA+1
+}
+
+SA
+
+Total_country_appearances = PAK + AUS + IND + WI + ENG + SA + SL
+
+PAK_ratio = 100*PAK/Total_country_appearances
+AUS_ratio = 100*AUS/Total_country_appearances
+IND_ratio = 100*IND/Total_country_appearances
+SL_ratio = 100*SL/Total_country_appearances
+WI_ratio = 100*WI/Total_country_appearances
+ENG_ratio = 100*ENG/Total_country_appearances
+SA_ratio = 100*SA/Total_country_appearances
